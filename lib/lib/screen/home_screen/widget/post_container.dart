@@ -14,36 +14,45 @@ class PostContainer extends StatelessWidget {
   final PostModel post;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _PostHeader(post: post),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(post.caption),
-            post.imageUrl.isNotEmpty
-                ? const SizedBox.shrink()
-                : const SizedBox(
-                    height: 6,
-                  ),
-            post.imageUrl.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: CachedNetworkImage(imageUrl: post.imageUrl),
-                  )
-                : const SizedBox.shrink(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: _PostStars(post: post),
-            )
-          ],
+    final bool isDesktop = Responsive.isDesktop(context);
+
+    return Card(
+      margin:
+          EdgeInsets.symmetric(horizontal: isDesktop ? 5.0 : 0, vertical: 5),
+      elevation: isDesktop ? 1.0 : 0,
+      shape: isDesktop
+          ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+          : null,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _PostHeader(post: post),
+              const SizedBox(
+                height: 4,
+              ),
+              Text(post.caption),
+              post.imageUrl.isNotEmpty
+                  ? const SizedBox.shrink()
+                  : const SizedBox(
+                      height: 6,
+                    ),
+              post.imageUrl.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: CachedNetworkImage(imageUrl: post.imageUrl),
+                    )
+                  : const SizedBox.shrink(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: _PostStars(post: post),
+              )
+            ],
+          ),
         ),
       ),
     );
